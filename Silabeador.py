@@ -20,6 +20,8 @@ def es_consonante(letra):
   return letra in consonantes
 
 def es_inseparable(letra1, letra2):
+  if not letra1 or not letra2:
+    return False
   return letra1+letra2 in inseparables
 
 def es_diptongo(letra_anterior, letra):
@@ -32,42 +34,41 @@ def buscar_letra_siguiente(palabra, index):
   if index == len(palabra)-1:
     return '_'
   else:
-    return palabra[index+1] 
-  
-while True:
-  
+    return palabra[index+1]
+    
+def pedir_palabra():
   while True:
-    palabra = raw_input('Escriba la palabra: ').decode('utf-8')
+    palabra = raw_input('Escriba la palabra (exit para salir): ').decode('utf-8')
     if palabra == 'exit':
       print 'Adiós'   
       exit()
     if len(palabra) > 0:
-      break
-  
+      return palabra
+      break  
+    
+while True:
+    
+  palabra = pedir_palabra()  
   palabra = palabra.lower()
   silaba = palabra[0]
-  index = 0
   
-  for letra in palabra:
+  for index, letra in enumerate(palabra):
     
     if index==0:
       continue
-      
-    index = index + 1  
+  
     letra_anterior = buscar_letra_anterior(palabra, index)
     letra_siguiente = buscar_letra_siguiente(palabra, index)
     
     if es_vocal(letra) and es_consonante(letra_anterior):
       silaba=silaba+letra
-      print ' VC ' +palabra[index]
       
     elif es_vocal(letra) and es_vocal(letra_anterior):
       
       if es_diptongo(letra_anterior, letra):
         silaba=silaba+letra
-        print ' VV ' + palabra[index]
       else:
-        print silaba + ' diptongo ' + palabra[index]
+        print silaba
         silaba = palabra [index]
         
     elif es_consonante(letra):
@@ -76,18 +77,15 @@ while True:
         silaba=silaba+letra
         
       elif es_inseparable(letra, letra_siguiente) or es_vocal(letra_siguiente):
-        print silaba + ' inseparable-CCV ' + palabra[index]
+        print silaba
         silaba = palabra [index]
           
       else:
         silaba=silaba+letra
-        print 'CC ' +palabra[index]
         
     else:
       print 'Palabra no válida'
-      break
- 
-    print 'ultima linea'
+      break 
     
   print silaba
 
