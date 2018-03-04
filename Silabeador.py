@@ -5,14 +5,14 @@
 # 2. VCCV = a) VC-CV b) V-CCV (p, b, f, g, k + r, l / dr, tr)
 # 3. VCCC(C)V = a)VCC (ns, bs) - CV b)VC-CCV (C + l, r) cons- truir an-sie-dad
 # 4. VV = a) V-V (abiertas, abierta + cerrada tónica, cerrada tónica + abierta) b) VV (cerradas, abierta+cerrada átona, cerrada átona + abierta)
-# La consonante no puede ser núcleo ni constituir sílaba por sí misma.
+# La consonante no puede ser núcleo ni constituir sílaba por sí misma (salvo semiconsonante y)
 # prefijos = sub
 
 consonantes =  map(lambda word: unicode(word, 'utf-8'), ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'ñ', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'])
 vocales =map(lambda word: unicode(word, 'utf-8'), ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü'])
 inseparables = map(lambda word: unicode(word, 'utf-8'), ['ch', 'll', 'rr', 'pr', 'pl', 'br', 'bl', 'fr', 'fl', 'gr', 'gl', 'kr', 'cr', 'kl', 'cl', 'dr', 'tr'])
 vcerradas = map(lambda word: unicode(word, 'utf-8'),['i', 'u', 'ü'])
-letras = consonantes + vocales
+letras = consonantes+ vocales
 
 def es_vocal(letra):
   return letra in vocales
@@ -37,65 +37,80 @@ def buscar_letra_siguiente(palabra, index):
   else:
     return palabra[index+1]
     
+def buscar_letra_consiguiente(palabra, index):
+  if index >= len(palabra)-2:
+    return False
+  else:
+    return palabra[index+2]
+    
 def pedir_palabra():
   while True:
     palabra = raw_input('Escriba la palabra (exit para salir): ').decode('utf-8')
     if palabra == 'exit':
       print 'Adiós'   
       exit()
+    if not caracter_valido(palabra):
+      print 'Palabra no válida'
+      continue
     if len(palabra) > 0:
-      palabra = palabra.lower()
       palabra = palabra.strip()
+      palabra = palabra.lower()
       return palabra
-      break  
-    
-while True:
-    
-  palabra = pedir_palabra()
+      break
+
+def caracter_valido(palabra):
+  for letra in palabra:
+    return letra in letras
+  
+def silabear(palabra):
+  
   silaba = ''
   silabeo = []
   
   for index, letra in enumerate(palabra):
     
+    letra_anterior = buscar_letra_anterior(palabra, index)
+    letra_siguiente = buscar_letra_siguiente(palabra, index)
+    letra_consiguiente = buscar_letra_consiguiente(palabra, index)
+
     if index==0:
       silaba=letra
       continue
-  
-    letra_anterior = buscar_letra_anterior(palabra, index)
-    letra_siguiente = buscar_letra_siguiente(palabra, index)
     
-    if es_vocal(letra) and es_consonante(letra_anterior):           # Estructura CV, la vocal se agrupa siempre con la consonante
+    elif es_vocal(letra) and es_consonante(letra_anterior):           # Estructura CV, la vocal se agrupa siempre con la consonante
       silaba=silaba+letra
       
-    elif es_vocal(letra) and es_vocal(letra_anterior):                  # Estructura VV
+    elif es_vocal(letra) and es_vocal(letra_anterior):                     # Estructura VV
       
-      if es_diptongo(letra_anterior, letra):                                     # Diptongo VV, cuando una de las vocales es cerrada átona (i, u), resto de casos forma hiato V-V
+      if es_diptongo(letra_anterior, letra):                                       # Diptongo VV, cuando una de las vocales es cerrada átona (i, u), resto de casos forma hiato V-V
         silaba=silaba+letra
       else:
         silabeo.append(silaba)
         silaba = letra
         
-    elif es_consonante(letra):
-    
-      if es_inseparable(letra, letra_siguiente) or not es_inseparable(letra_anterior, letra) and es_vocal(letra_siguiente):
+    elif es_consonante(letra):                                                        #Estructuras C(C)V, C(C)C, V(C)V, V(C)C
+      
+      if es_inseparable(letra, letra_siguiente) and es_vocal(letra_consiguiente):
         silabeo.append(silaba)
         silaba = letra
-          
-      else:
-        silaba=silaba+letra
+      elif not es_inseparable(letra_anterior, letra) and es_vocal(letra_siguiente):
+        silabeo.append(silaba)
+        silaba = letra
+      else:   
+        silaba=silaba+letra          
         
     else:
-      print 'Palabra no válida'
-      break 
-    
+      print 'Error'
+      break
   silabeo.append(silaba)
+  return silabeo
+  
+while True:
+    
+  palabra = pedir_palabra()   
+  silabeo = silabear(palabra)
   separador = ' - '
   silabeo = separador.join(silabeo)
   print silabeo
-
-#silabeo= []
-#for silaba in silabeo:
-#  ' - '
-#print 'cc: ' + letra_anterior + ' ' + letra + "\n"
 
 		
