@@ -36,18 +36,18 @@ def buscar_letra_siguiente(palabra, index):
     return False
   else:
     return palabra[index+1]
-    
+
 def buscar_letra_consiguiente(palabra, index):
   if index >= len(palabra)-2:
     return False
   else:
     return palabra[index+2]
-    
+
 def pedir_palabra():
   while True:
     palabra = raw_input('Escriba la palabra (exit para salir): ').decode('utf-8')
     if palabra == 'exit':
-      print 'Adiós'   
+      print 'Adiós'
       exit()
     if not caracter_valido(palabra):
       print 'Palabra no válida'
@@ -61,14 +61,14 @@ def pedir_palabra():
 def caracter_valido(palabra):
   for letra in palabra:
     return letra in letras
-  
+
 def silabear(palabra):
-  
+
   silaba = ''
   silabeo = []
-  
+
   for index, letra in enumerate(palabra):
-    
+
     letra_anterior = buscar_letra_anterior(palabra, index)
     letra_siguiente = buscar_letra_siguiente(palabra, index)
     letra_consiguiente = buscar_letra_consiguiente(palabra, index)
@@ -76,38 +76,38 @@ def silabear(palabra):
     if index==0:
       silaba=letra
       continue
-    
+
     elif es_vocal(letra) and es_consonante(letra_anterior):           # Estructura CV, la vocal se agrupa siempre con la consonante
       silaba=silaba+letra
-      
+
     elif es_vocal(letra) and es_vocal(letra_anterior):                     # Estructura VV
-      
+
       if es_diptongo(letra_anterior, letra):                                       # Diptongo VV, cuando una de las vocales es cerrada átona (i, u), resto de casos forma hiato V-V
         silaba=silaba+letra
       else:
         silabeo.append(silaba)
         silaba = letra
-        
+
     elif es_consonante(letra):                                                        #Estructuras C(C)V, C(C)C, V(C)V, V(C)C
-      
+
       if es_inseparable(letra, letra_siguiente) and es_vocal(letra_consiguiente):
         silabeo.append(silaba)
         silaba = letra
       elif not es_inseparable(letra_anterior, letra) and es_vocal(letra_siguiente):
         silabeo.append(silaba)
         silaba = letra
-      else:   
-        silaba=silaba+letra          
-        
+      else:
+        silaba=silaba+letra
+
     else:
       print 'Error'
       break
   silabeo.append(silaba)
   return silabeo
-  
+
 while True:
-    
-  palabra = pedir_palabra()   
+
+  palabra = pedir_palabra()
   silabeo = silabear(palabra)
   separador = ' - '
   silabeo = separador.join(silabeo)
