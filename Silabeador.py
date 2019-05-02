@@ -1,13 +1,31 @@
 #coding=UTF-8
-# División silábica en español (Quilis, Tratado de fonética y fonología, p. 368 y ss.)
-# V=vocal C = consonante.
-# 1. VCV = V-CV
-# 2. VCCV = a) VC-CV b) V-CCV (p, b, f, g, k + r, l / dr, tr)
-# 3. VCCC(C)V = a)VCC (ns, bs) - CV b)VC-CCV (C + l, r) cons- truir an-sie-dad
-# 4. VV = a) V-V (abiertas, abierta + cerrada tónica, cerrada tónica + abierta) b) VV (cerradas, abierta+cerrada átona, cerrada átona + abierta)
-# La consonante no puede ser núcleo ni constituir sílaba por sí misma (salvo semiconsonante y)
-# prefijos = sub
 
+# La funcionalidad está creada para la división silábica normativa de unidades discretas del español (conjuntos silábico, palabras y pseudopalabras). No es aplicable a la transcripción fonética ni el análisis métrico del verso.
+
+# Se aplica, adaptado a ortografía del español, la división silábica expuesta en Quilis, Tratado de fonética y fonología, p. 368 y ss.
+
+# La consonante no puede ser núcleo ni constituir sílaba por sí misma.
+
+# Las semivocales 'y, w' y la letra hache son tratadas como consonantes, por lo que algunas palabras, especialmente los extranjerismos, diferirán de la segmentación más adecuada, otros casos se acercan a lo que un hispanohablante diría si desconoce la fonética del idioma - 'w-his-key', 'billy', 's-pain', 've-ge-ta-ble', 'a-mat-xu'
+
+# Algunos prefijos ('sub', 'psi' o 'pso') producen errores 'su-bín-dice*', 'pa-rap-si-có-lo-go*', 'p-so-ria-sis*', estos elementos no siguen la regla general al percibirse como una unidad independiente cuya identidad de sentido se prioriza sobre el uso fonético, si bien existen casos límite donde el prefijo está prácticamente lexicalizado 'su-bra-yar / sub-ra-yar'. Esto no ocurre con otras palabras o pseudopalabras donde por no percibirse esa unidad el hispanohablante siempre agrupa la consonante con la vocal que le sigue: 'rap-so-da', 'pep-si', 'su-bli-me'
+
+#   V=vocal C = consonante.
+
+#   1. VCV =      V-CV 'a-mo'
+
+#   2. VCCV =     a) VC-CV 'ar-mo'
+#                 b) V-CCV 'a-bro' [(b, c, f, g, k, p) + (l, r), dr, tr, ch, ll, rr]
+
+#   3. VCCC(C)V = a)VCC (ns, bs) - (C)CV 'ins-tante', 'obs- truir'
+#                 b)VC-CCV 'in-tra' (grupo inseparable)
+
+#   4. VV =       a) V-V 've-a', 'le-í-a' (abiertas, abierta + cerrada tónica, cerrada tónica + abierta)
+#                 b) VV 'au-ra' (cerradas, abierta+cerrada átona, cerrada átona + abierta)
+
+
+
+# ** Estas funciones no están en uso, en pruebas. Comienza en línea 46**
 
 def definir_alfabeto():
     consonantes = map(lambda word: unicode(word, 'utf-8'),
@@ -23,6 +41,8 @@ def validar_letra(caracter):
         return caracter
     else:
         return ''
+
+# ** Comienza aquí **
 
 def es_vocal(letra):
     vocales =map(lambda word: unicode(word, 'utf-8'), ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü'])
@@ -45,6 +65,12 @@ def es_inseparable(letra1, letra2):
 def es_diptongo(letra1, letra2):
     vcerradas = map(lambda word: unicode(word, 'utf-8'), ['i', 'u', 'ü'])
     return letra1 in vcerradas or letra2 in vcerradas
+
+def _CCV(letra, letra_siguiente, letra_consiguiente):
+    return es_consonante(letra) and es_inseparable(letra, letra_siguiente) and es_vocal(letra_consiguiente)   # V-(C)CV, C-(C)CV
+
+def _CV(letra_anterior, letra, letra_siguiente):
+    return es_consonante(letra) and not es_inseparable(letra_anterior, letra) and es_vocal(letra_siguiente)   # V-(C)V, C-(C)V
 
 def buscar_letra_anterior(palabra, index):
     return palabra[index-1]
@@ -96,18 +122,15 @@ def silabear(palabra):
 
         elif es_vocal(letra) and es_vocal(letra_anterior):                     # Estructura VV
 
-            if es_diptongo(letra_anterior, letra):                                       # Diptongo VV, cuando una de las vocales es cerrada átona (i, u), resto de casos forma hiato V-V
+            if es_diptongo(letra_anterior, letra):                                       # Diptongo VV
                 silaba=silaba+letra
             else:
                 silabeo.append(silaba)
                 silaba = letra
 
-        elif es_consonante(letra):                                                        #Estructuras C(C)V, C(C)C, V(C)V, V(C)C
+        elif es_consonante(letra):                                        #Estructuras C(C)V, C(C)C, V(C)V, V(C)C
 
-            if es_inseparable(letra, letra_siguiente) and es_vocal(letra_consiguiente):
-                silabeo.append(silaba)
-                silaba = letra
-            elif not es_inseparable(letra_anterior, letra) and es_vocal(letra_siguiente):
+            if _CCV(letra, letra_siguiente, letra_consiguiente) or _CV(letra_anterior, letra, letra_siguiente):        
                 silabeo.append(silaba)
                 silaba = letra
             else:
@@ -126,6 +149,5 @@ def silabeador():
         silabeo = silabear(palabra)
         silabeo = '-'.join(silabeo)
         print silabeo
-
 
 silabeador()
