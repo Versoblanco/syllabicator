@@ -34,16 +34,6 @@ def definir_inseparables():
     inseparables = map(lambda word: unicode(word, 'utf-8'), ['ch', 'll', 'rr', 'pr', 'pl', 'br', 'bl', 'fr', 'fl', 'gr', 'gl', 'kr', 'cr', 'kl', 'cl', 'dr', 'tr'])
     return inseparables
 
-def definir_alfabeto():
-    alfabeto = definir_consonantes() + definir_vocales()
-    return alfabeto
-
-def validar_letra(caracter):
-    alfabeto = definir_alfabeto()
-    if caracter in alfabeto:
-        return caracter
-    return ''
-
 def es_vocal(letra):
     vocales = definir_vocales()
     return letra in vocales
@@ -97,19 +87,19 @@ def extraer_silaba(silabeo, silaba):
 
 def pedir_palabra():
     while True:
-        palabra = raw_input('Escriba la palabra (exit para salir): ').decode('utf-8').strip()
+        palabra = raw_input('Escriba la palabra (exit para salir): ')
         if palabra == 'exit':
             exit()
         if len(palabra) > 0:
             return palabra
 
 def dar_formato(palabra):
-    palabra = palabra.lower()
-    palabra = ''.join(map(validar_letra, palabra))
+    palabra = palabra.strip().lower()
+    palabra = ''.join(palabra)
     return palabra
 
 def silabear(palabra):
-
+    palabra = palabra.decode('utf-8')
     silaba = ''
     silabeo = []
 
@@ -132,7 +122,7 @@ def silabear(palabra):
             if es_diptongo(letra_anterior, letra):
                 silaba=silaba+letra
                 continue
-            if es_hiato(letra_anterior, letra):
+            elif es_hiato(letra_anterior, letra):
                 extraer_silaba(silabeo, silaba)
                 silaba = letra
                 continue
@@ -152,7 +142,9 @@ def silabear(palabra):
         else:
             print 'Error'
             break
+
     extraer_silaba(silabeo, silaba)
+    print silabeo
     return silabeo
 
 def silabeador():
@@ -163,5 +155,5 @@ def silabeador():
         silabeo = silabear(palabra)
         silabeo = '-'.join(silabeo)
         print silabeo
-
-silabeador()
+if __name__ == '__main__':
+    silabeador()
