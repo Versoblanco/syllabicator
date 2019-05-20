@@ -83,6 +83,7 @@ def buscar_letra_consiguiente(palabra, index):
         return palabra[index+2]
 
 def extraer_silaba(silabeo, silaba):
+    silaba = silaba.encode(get_encoding())
     silabeo.append(silaba)
 
 def pedir_palabra():
@@ -98,8 +99,15 @@ def dar_formato(palabra):
     palabra = ''.join(palabra)
     return palabra
 
+def get_encoding():
+    encoding = 'utf-8'
+    return encoding
+
 def silabear(palabra):
-    palabra = palabra.decode('utf-8')
+    print type(palabra)
+    if type(palabra) is str:
+        palabra = palabra.decode(get_encoding())
+    print type(palabra)
     silaba = ''
     silabeo = []
 
@@ -145,6 +153,7 @@ def silabear(palabra):
 
     extraer_silaba(silabeo, silaba)
     print silabeo
+    print type(silabeo[0])
     return silabeo
 
 def silabeador():

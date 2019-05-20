@@ -1,4 +1,4 @@
-#coding=UTF-8
+# -*- coding: utf-8 -*-
 
 import unittest
 import Silabeador
@@ -18,8 +18,8 @@ class TestSilabeador(unittest.TestCase):
         self.assertEqual(['pe', 'a', 'na'], Silabeador.silabear(palabra))
 
     def test_silabear_hiato_con_tilde(self):
-        palabra = 'leía'
-        self.assertEqual(['le', u'í', 'a'], Silabeador.silabear(palabra))
+        palabra = u'leía'
+        self.assertEqual(['le', 'í', 'a'], Silabeador.silabear(palabra))
 
     def test_silabear_triptongo(self):
         palabra = 'miau'
