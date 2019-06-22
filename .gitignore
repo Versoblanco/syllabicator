@@ -1,2 +1,6 @@
 *.*~
-
+*.pdf
+*.pyc
+*~
+/.idea
+/venv
