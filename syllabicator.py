@@ -3,20 +3,17 @@
 """Syllabicate word according to rules of given language."""
 
 
-from es import find_coda
-
-
-def _get_syllable(word):
-    coda = find_coda(word)
+def _get_syllable(word, lang):
+    coda = lang.find_coda(word)
     syllable = word[:coda]
     return syllable
 
 
-def syllabicate(word):
+def syllabicate(word, lang):
     """Return a list of syllables from word. Word data type must be unicode."""
     syllabification = []
     while len(word) > 0:
-        syllable = _get_syllable(word)
+        syllable = _get_syllable(word, lang)
         syllabification.append(syllable)
         word = word[len(syllable):]
     return syllabification
