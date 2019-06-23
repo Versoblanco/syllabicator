@@ -95,7 +95,7 @@ def get_pattern(text, i):
     return None
 
 
-def boundary(pattern, i):
+def coda(pattern):
     """Return number of letters until coda, including coda, for given pattern."""
     letters = {'V_CCV': 1, 'V_CV': 1, 'V_V': 1, 'VC_CV': 2, 'VC_CCV': 2, 'VCC_CV': 3, 'VCC_CCV': 3}
-    return i + letters[pattern]
+    return letters[pattern]

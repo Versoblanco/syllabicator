@@ -8,9 +8,6 @@ import Silabeador
 
 class _TestSilabeador(unittest.TestCase):
 
-    # def comparation(words, syllabification): # It doesn't work, don't know why
-    #     self.assertSequenceEqual(syllabification, words)
-
     def test_syllabicate_semivowel(self):
         words = ['pytyngoyaxtllynstymal']
         words = [Silabeador.syllabicate(word) for word in words]
