@@ -27,9 +27,9 @@ class _TestSilabeador(unittest.TestCase):
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_diptongo(self):
-        words = ['luisnau', 'cigüeña']
+        words = ['luisnau', u'cigüeña']
         words = [Silabeador.syllabicate(word) for word in words]
-        syllabification = [['luis', 'nau'], ['ci', 'güe', 'ña']]
+        syllabification = [['luis', 'nau'], ['ci', u'güe', u'ña']]
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_hiato(self):
@@ -39,9 +39,9 @@ class _TestSilabeador(unittest.TestCase):
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_hiato_con_tilde(self):
-        words = ['leía']
+        words = [u'leía']
         words = [Silabeador.syllabicate(word) for word in words]
-        syllabification = [['le', 'í', 'a']]
+        syllabification = [['le', u'í', 'a']]
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_triptongo(self):
@@ -68,10 +68,10 @@ class _TestSilabeador(unittest.TestCase):
         syllabification = [['in', 'tra']]
         self.assertSequenceEqual(syllabification, words)
 
-    def test_syllabicate_tres_consonants_between_two_voweles(self):
-        words = ['insta']
+    def test_syllabicate_three_consonants_between_two_vowels(self):
+        words = ['insta', 'ashlo']
         words = [Silabeador.syllabicate(word) for word in words]
-        syllabification = [['ins', 'ta']]
+        syllabification = [['ins', 'ta'], ['ash', 'lo']]
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_cuatro_consonants_between_two_voweles(self):
