@@ -6,15 +6,6 @@
 from es import find_coda
 
 
-def _get_new_word(word, i):
-    newword = word[i:]
-    return newword
-
-
-def _add_letter(syllable, letter):
-    return syllable + letter
-
-
 def _get_syllable(word):
     syllable = ''
     for i, letter in enumerate(word):
@@ -22,7 +13,7 @@ def _get_syllable(word):
         if coda is None:
             syllable += letter
             continue
-        syllable = _add_letter(syllable, word[i:coda])
+        syllable += word[i:coda]
         return syllable
     return syllable
 
@@ -33,5 +24,5 @@ def syllabicate(word):
     while len(word) > 0:
         syllable = _get_syllable(word)
         syllabification.append(syllable)
-        word = _get_new_word(word, len(syllable))
+        word = word[len(syllable):]
     return syllabification
