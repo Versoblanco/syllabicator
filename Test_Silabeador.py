@@ -80,16 +80,12 @@ class _TestSilabeador(unittest.TestCase):
         syllabification = [['ins', 'tra']]
         self.assertSequenceEqual(syllabification, words)
 
-    # def test_syllabicate_prefix(self):  # Must fail
-    #     words = ['subacuático', 'parapsicólogo', 'postimpresionismo']
-    #     words = [Silabeador.syllabicate(word) for word in words]
-    #     syllabification = [['sub', 'a', 'cuá', 'ti', 'co'], ['pa', 'ra', 'psi', 'có', 'lo', 'go'], ['post', 'im', 'pre', 'sio', 'nis', 'mo']]
-    #     self.assertSequenceEqual(syllabification, words)
+    def test_syllabicate_prefix(self):  # Check wrong syllabification (no prefix functionality)
+        words = [u'subacuático', u'parapsicólogo', 'postimpresionismo', 'subrepticio']
+        words = [Silabeador.syllabicate(word) for word in words]
+        syllabification = [['su', 'ba', u'cuá', 'ti', 'co'], ['pa', 'rap', 'si', u'có', 'lo', 'go'], ['pos', 'tim', 'pre', 'sio', 'nis', 'mo'], ['su', 'brep', 'ti', 'cio']]
+        self.assertSequenceEqual(syllabification, words)
 
 
 if __name__ == '__main__':
     unittest.main()
-
-
-# Input must be utf-8
-# test_words=[cigüeña, día, guerrero, pingüino, guirigai, caray, yerro, hierro, yermo, bíceps, psicólogo, postimpresionismo, aceptar, subrogar, subrepticio]
