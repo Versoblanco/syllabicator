@@ -7,14 +7,8 @@ from es import find_coda
 
 
 def _get_syllable(word):
-    syllable = ''
-    for i, letter in enumerate(word):
-        coda = find_coda(word, i)
-        if coda is None:
-            syllable += letter
-            continue
-        syllable += word[i:coda]
-        return syllable
+    coda = find_coda(word)
+    syllable = word[:coda]
     return syllable
 
 

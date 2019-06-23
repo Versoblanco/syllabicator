@@ -76,10 +76,18 @@ def _VCC_CCV(word, i):
         return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_indivisible(word[i+3:i+5]) and _is_vowel(word[i+5])
 
 
-def find_coda(word, i):
-    """Find syllable's coda and return its position, otherwise return None."""
-    coda = {_V_CCV: 1, _V_CV: 1, _V_V: 1, _VC_CV: 2, _VC_CCV: 2, _VCC_CV: 3, _VCC_CCV: 3}
-    for pattern in coda:
-        if pattern(word, i):
-            return i + coda[pattern]
-    return None
+def find_coda(word):
+    """Find last letter of first syllable (coda) and return next letter position."""
+    coda = {
+        _V_CCV: 1,
+        _V_CV: 1,
+        _V_V: 1,
+        _VC_CV: 2,
+        _VC_CCV: 2,
+        _VCC_CV: 3,
+        _VCC_CCV: 3,
+    }
+    for i, letter in enumerate(word):
+        for pattern in coda:
+            if pattern(word, i):
+                return i + coda[pattern]
