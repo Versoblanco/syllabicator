@@ -46,11 +46,6 @@ def _V_V(text, i):
         return not _Diphthong(text, i) or text[i] == text[i + 1]
 
 
-def _CV(text):
-    if len(text) >= 2:
-        return _is_consonant(text[0]) and _is_vowel(text[1])
-
-
 def _V_CV(text, i):
     if len(text[i:]) >= 3:
         return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_vowel(text[i+2])
@@ -81,21 +76,10 @@ def _VCC_CCV(text, i):
         return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_consonant(text[i+2]) and _is_indivisible(text[i+3:i+5]) and _is_vowel(text[i+5])
 
 
-def get_pattern(text, i):
-    """Find syllable's known pattern and return its name, otherwise return None."""
-    patterns = {
-      'V_CCV': _V_CCV(text, i),
-      'V_CV': _V_CV(text, i),
-      'V_V': _V_V(text, i), 'VC_CV': _VC_CV(text, i), 'VC_CCV': _VC_CCV(text, i), 'VCC_CV': _VCC_CV(text, i), 'VCC_CCV': _VCC_CCV(text, i)}
-    for name in patterns:
-        if patterns[name] is True:
-            return name
-        else:
-            continue
+def find_coda(text, i):
+    """Find syllable's coda and return its position, otherwise return None."""
+    coda = {_V_CCV: 1, _V_CV: 1, _V_V: 1, _VC_CV: 2, _VC_CCV: 2, _VCC_CV: 3, _VCC_CCV: 3}
+    for pattern in coda:
+        if pattern(text, i):
+            return i + coda[pattern]
     return None
-
-
-def coda(pattern):
-    """Return number of letters until coda, including coda, for given pattern."""
-    letters = {'V_CCV': 1, 'V_CV': 1, 'V_V': 1, 'VC_CV': 2, 'VC_CCV': 2, 'VCC_CV': 3, 'VCC_CCV': 3}
-    return letters[pattern]

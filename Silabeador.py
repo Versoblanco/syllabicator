@@ -4,7 +4,7 @@
 
 # TODO: try with Python3
 
-from es import get_pattern, coda
+from es import find_coda
 from encoding import get_encoding, decode_str
 
 
@@ -20,14 +20,12 @@ def _add_letter(syllable, letter):
 def _get_syllable(text):
     syllable = ''
     for i, letter in enumerate(text):
-        pattern = get_pattern(text, i)
-        if pattern is None:
-            syllable = _add_letter(syllable, text[i])
+        coda = find_coda(text, i)
+        if coda is None:
+            syllable += letter
             continue
-        else:
-            c = i + coda(pattern)
-            syllable = _add_letter(syllable, text[i:c])
-            return syllable
+        syllable = _add_letter(syllable, text[i:coda])
+        return syllable
     return syllable
 
 
