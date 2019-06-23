@@ -4,10 +4,10 @@
 
 
 def _alphabet():
-    consonants = map(lambda word: unicode(word, 'utf-8'), ['b', 'c', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 'n', 'ñ', 'p', 'q', 'r', 's', 't', 'v', 'w', 'x', 'y', 'z'])
-    vowels = map(lambda word: unicode(word, 'utf-8'), ['a', 'e', 'i', 'o', 'u', 'á', 'é', 'í', 'ó', 'ú', 'ü', 'y'])
-    indivisibleConsonants = map(lambda word: unicode(word, 'utf-8'), ['ch', 'll', 'rr', 'pr', 'pl', 'br', 'vr', 'bl', 'vl', 'fr', 'fl', 'gr', 'gl', 'kr', 'cr', 'kl', 'cl', 'dr', 'tr', 'tx'])
-    closedVowels = map(lambda text: unicode(text, 'utf-8'), ['i', 'u', 'ü'])
+    consonants = u'bcdfghjklmnñpqrstvwxyz'
+    vowels = u'aeiouáéíóúüy'
+    indivisibleConsonants = [u'ch', u'll', u'rr', u'pr', u'pl', u'br', u'vr', u'bl', u'vl', u'fr', u'fl', u'gr', u'gl', u'kr', u'cr', u'kl', u'cl', u'dr', u'tr', u'tx']
+    closedVowels = u'iuü'
     alphabet = {'consonants': consonants, 'vowels': vowels, 'indivisibleConsonants': indivisibleConsonants, 'closedVowels': closedVowels}
     return alphabet
 
