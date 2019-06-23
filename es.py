@@ -31,55 +31,55 @@ def _is_indivisible(letter):
 # Patterns definitions. V = 'vowel' C = 'consonant'
 
 
-def _VV(text, i):
-    if len(text[i:]) >= 2:
-        return not _is_consonant(text[i]) and not _is_consonant(text[i+1])
+def _VV(word, i):
+    if len(word[i:]) >= 2:
+        return not _is_consonant(word[i]) and not _is_consonant(word[i+1])
 
 
-def _Diphthong(text, i):
-    if len(text) >= 2:
-        return text[i] in _closed_vowels() or text[i+1] in _closed_vowels()
+def _Diphthong(word, i):
+    if len(word) >= 2:
+        return word[i] in _closed_vowels() or word[i+1] in _closed_vowels()
 
 
-def _V_V(text, i):
-    if _VV(text, i):
-        return not _Diphthong(text, i) or text[i] == text[i + 1]
+def _V_V(word, i):
+    if _VV(word, i):
+        return not _Diphthong(word, i) or word[i] == word[i + 1]
 
 
-def _V_CV(text, i):
-    if len(text[i:]) >= 3:
-        return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_vowel(text[i+2])
+def _V_CV(word, i):
+    if len(word[i:]) >= 3:
+        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_vowel(word[i+2])
 
 
-def _V_CCV(text, i):
-    if len(text[i:]) >= 4:
-        return _is_vowel(text[i]) and _is_indivisible(text[i+1:i+3]) and _is_vowel(text[i+3])
+def _V_CCV(word, i):
+    if len(word[i:]) >= 4:
+        return _is_vowel(word[i]) and _is_indivisible(word[i+1:i+3]) and _is_vowel(word[i+3])
 
 
-def _VC_CV(text, i):
-    if len(text[i:]) >= 4:
-        return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_consonant(text[i+2]) and _is_vowel(text[i+3]) and not _is_indivisible(text[i+1:i+3])
+def _VC_CV(word, i):
+    if len(word[i:]) >= 4:
+        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_vowel(word[i+3]) and not _is_indivisible(word[i+1:i+3])
 
 
-def _VC_CCV(text, i):
-    if len(text[i:]) >= 5:
-        return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_indivisible(text[i+2:i+4]) and _is_vowel(text[i+4])
+def _VC_CCV(word, i):
+    if len(word[i:]) >= 5:
+        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_indivisible(word[i+2:i+4]) and _is_vowel(word[i+4])
 
 
-def _VCC_CV(text, i):
-    if len(text[i:]) >= 5:
-        return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_consonant(text[i+2]) and _is_consonant(text[i+3]) and _is_vowel(text[i+4]) and not _is_indivisible(text[i+2:i+4])
+def _VCC_CV(word, i):
+    if len(word[i:]) >= 5:
+        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_consonant(word[i+3]) and _is_vowel(word[i+4]) and not _is_indivisible(word[i+2:i+4])
 
 
-def _VCC_CCV(text, i):
-    if len(text[i:]) >= 6:
-        return _is_vowel(text[i]) and _is_consonant(text[i+1]) and _is_consonant(text[i+2]) and _is_indivisible(text[i+3:i+5]) and _is_vowel(text[i+5])
+def _VCC_CCV(word, i):
+    if len(word[i:]) >= 6:
+        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_indivisible(word[i+3:i+5]) and _is_vowel(word[i+5])
 
 
-def find_coda(text, i):
+def find_coda(word, i):
     """Find syllable's coda and return its position, otherwise return None."""
     coda = {_V_CCV: 1, _V_CV: 1, _V_V: 1, _VC_CV: 2, _VC_CCV: 2, _VCC_CV: 3, _VCC_CCV: 3}
     for pattern in coda:
-        if pattern(text, i):
+        if pattern(word, i):
             return i + coda[pattern]
     return None

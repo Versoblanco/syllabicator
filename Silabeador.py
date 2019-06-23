@@ -1,47 +1,37 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Syllabicate text according to rules of given language."""
+"""Syllabicate word according to rules of given language."""
 
-# TODO: try with Python3
 
 from es import find_coda
-from encoding import get_encoding, decode_str
 
 
-def _get_new_text(text, i):
-    newText = text[i:]
-    return newText
+def _get_new_word(word, i):
+    newword = word[i:]
+    return newword
 
 
 def _add_letter(syllable, letter):
     return syllable + letter
 
 
-def _get_syllable(text):
+def _get_syllable(word):
     syllable = ''
-    for i, letter in enumerate(text):
-        coda = find_coda(text, i)
+    for i, letter in enumerate(word):
+        coda = find_coda(word, i)
         if coda is None:
             syllable += letter
             continue
-        syllable = _add_letter(syllable, text[i:coda])
+        syllable = _add_letter(syllable, word[i:coda])
         return syllable
     return syllable
 
 
-def _syllabification(text):
-    """Return a list of syllables from text. Text data type must be unicode."""
+def syllabicate(word):
+    """Return a list of syllables from word. Word data type must be unicode."""
     syllabification = []
-    while len(text) > 0:
-        syllable = _get_syllable(text)
+    while len(word) > 0:
+        syllable = _get_syllable(word)
         syllabification.append(syllable)
-        text = _get_new_text(text, len(syllable))
-    return syllabification
-
-
-def syllabicate(text):
-    """Get syllabification and return syllables as a list of byte strings. Text should be compound of correctly stressed spanish words or pseudowords, without spaces or non-spanish special chars. Data type must be bytes or unicode, with utf-8 compatible encoding (such as ASCII)."""
-    text = decode_str(text)
-    syllabification = _syllabification(text)
-    syllabification = [i.encode(get_encoding())for i in syllabification]
+        word = _get_new_word(word, len(syllable))
     return syllabification
