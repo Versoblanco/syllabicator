@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Spanish alphabet and syllabification rules."""
+"""Spanish alphabet and syllabification patterns and rules."""
 
 # Copyright 2019 Patricia Martín (aka Farándula)
 
@@ -90,8 +90,8 @@ def _VCC_CCV(word, i):
         return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_indivisible(word[i+3:i+5]) and _is_vowel(word[i+5])
 
 
-def find_coda(word):
-    """Find last letter of first syllable (coda) and return next letter position."""
+def len_syllable(word):
+    """Find matching pattern and return syllable lenght."""
     coda = {
         _V_CCV: 1,
         _V_CV: 1,

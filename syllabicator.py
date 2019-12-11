@@ -19,8 +19,8 @@
 
 
 def _get_syllable(word, lang):
-    coda = lang.find_coda(word)
-    syllable = word[:coda]
+    lenght = lang.len_syllable(word)
+    syllable = word[:lenght]
     return syllable
 
 
