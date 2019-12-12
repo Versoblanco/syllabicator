@@ -7,4 +7,4 @@ os:
   - linux
 
 script:
-  - pytest tests
+  - python syllabicator_test.py
