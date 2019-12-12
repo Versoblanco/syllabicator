@@ -1,10 +1,10 @@
-# Syllabicator
+# Syllabicator [![Build Status](https://travis-ci.com/Versoblanco/syllabicator.svg?branch=master)](https://travis-ci.com/Versoblanco/syllabicator)
 
 Syllabicator takes a word and returns a list of syllables acording to the given language rules. It is written in Python and works with both 2 and 3 version.
 
 [Installation](#installation)
 | [Syntax](#syntax)
-| [Supported languages](#supportedlanguages)
+| [Supported languages](#supported_languages)
 | [Contribute](#contribute)
 
 ## Installation
@@ -19,8 +19,8 @@ Please, check first [license compatibility](https://www.gnu.org/licenses/license
 
 It takes two arguments:
 
-- <code>word</code> understood as a any iterable sequence of charachters.
-- <code>lang</code> is the language expressed by its two letters standards (en, de, it, etc.). Currently it will work only with <code>es</code>
+- <code>word</code> understood as a any iterable sequence of characters.
+- <code>lang</code> is the language expressed by its two letters standard (en, de, it, etc.). Currently it will work only with <code>es</code>
 
         word = u"hodor"     # Input should be always Unicode type
         print(syllabicator.syllabicate(word, es))
@@ -49,4 +49,4 @@ Please, don't forget the copyright and license notice, and to choose a [compatib
 - The text is read from left to right
 - You cannot know word's previous syllables.
 
-The code must contain a function called <code>len_syllable(word)</code> that takes a sequence of Unicode charachters and returns the first syllable lenght, that is, the index of the first letter from second syllable.
+The code must contain a function called <code>len_syllable(word)</code> that takes a sequence of Unicode characters and returns the first syllable lenght, that is, the index of the first letter from second syllable.
