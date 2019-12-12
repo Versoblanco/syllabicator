@@ -9,7 +9,7 @@ Syllabicator takes a word and returns a list of syllables acording to the given 
 
 ## Installation
 
-At the moment it is only available as a simple function. Hopefully, it will be shortly available in the Python Package Repository. At the moment you can just clone/ copy / download the files and import them for your proyect.
+At the moment it is only a simple function. Hopefully, it will be shortly available in the Python Package Repository and with some kind of user interface. At the moment you can just clone/ copy / download the files and import them for your proyect.
 
 Please, check first [license compatibility](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses)
 
@@ -22,7 +22,7 @@ It takes two arguments:
 - <code>word</code> understood as a any iterable sequence of charachters.
 - <code>lang</code> is the language expressed by its two letters standards (en, de, it, etc.). Currently it will work only with <code>es</code>
 
-        words = u"hodor" # Input should be always Unicode type
+        word = u"hodor"     # Input should be always Unicode type
         print(syllabicator.syllabicate(word, es))
 
         # Output [ho, dor]
