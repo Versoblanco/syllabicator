@@ -30,7 +30,7 @@ It takes two arguments:
 
 ## Supported languages
 
-As Spaniard with a degree in Spanish Philology I am actually focused on this language, although the code is structured in order to take other sets of rules as input and should be easily adapted to language that share similar patterns.
+As Spaniard with a degree in Spanish Philology I am actually focused on this language, although the code is structured in order to take other sets of rules as a parameter and should be easily adapted to language that share similar patterns.
 
 More details about implementation for spanish in [LEAME](/LEAME.md) file.
 
