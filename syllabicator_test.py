@@ -102,6 +102,12 @@ class _Testsyllabicator(unittest.TestCase):
         syllabification = [['su', 'ba', u'cuá', 'ti', 'co'], ['pa', 'rap', 'si', u'có', 'lo', 'go'], ['pos', 'tim', 'pre', 'sio', 'nis', 'mo'], ['su', 'brep', 'ti', 'cio']]
         self.assertSequenceEqual(syllabification, words)
 
+    def test_syllabicate_stress_mono(self):  # Check stress monosyllable
+        words = [[u'tú'], ['te'], ['la'], ['do']]
+        words = [syllabicator.stress(word, lang) for word in words]
+        stress = [[0], [0], [0], [0]]
+        self.assertSequenceEqual(stress, words)
+
 
 if __name__ == '__main__':
     unittest.main()

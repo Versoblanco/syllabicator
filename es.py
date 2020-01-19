@@ -105,3 +105,10 @@ def len_syllable(word):
         for pattern in coda:
             if pattern(word, i):
                 return i + coda[pattern]
+
+def find_stress(syllables):
+    """Find stressed syllable/s and return list of indexes."""
+    stressed= []
+    if len(syllables) == 1:
+        stressed.append(0)
+    return stressed

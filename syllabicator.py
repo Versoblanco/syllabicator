@@ -32,3 +32,7 @@ def syllabicate(word, lang):
         syllabification.append(syllable)
         word = word[len(syllable):]
     return syllabification
+
+def stress(syllables, lang):
+    """Return index/es from stressed syllable/s."""
+    return lang.find_stress(syllables)
