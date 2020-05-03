@@ -60,17 +60,20 @@ def _is_stressed(letter):
 
 def _VV(word, i):
     if len(word[i:]) >= 2:
-        return not _is_consonant(word[i]) and not _is_consonant(word[i+1])
+        return (not _is_consonant(word[i]) and
+                not _is_consonant(word[i+1]))
     return None
 
 def _Diphthong(word, i):
     if len(word) >= 2:
-        return word[i] in _closed_vowels() or word[i+1] in _closed_vowels()
+        return (word[i] in _closed_vowels() or
+                word[i+1] in _closed_vowels())
     return None
 
 def _V_V(word, i):
     if _VV(word, i):
-        return not _Diphthong(word, i) or word[i] == word[i + 1]
+        return (not _Diphthong(word, i) or
+                word[i] == word[i + 1])
     return None
 
 def _V_CV(word, i):

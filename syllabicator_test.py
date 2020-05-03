@@ -106,11 +106,19 @@ class _Testsyllabicator(unittest.TestCase):
                            ['su', 'brep', 'ti', 'cio']]
         self.assertSequenceEqual(syllabification, words)
 
-    def test_syllabicate_stress(self):  # Check tonic syllables
-        words = [u'tú', 'tecla', 'latir', u'árbol', u'afín', u'cándido']
+    def test_syllabicate_tonic(self):  # Check tonic syllables
+        words = [u'tú', 'tecla', 'latir', u'árbol', u'afín', u'esdrújula', u'rápidamente']
         words = [stress.tonic(word, lang) for word in words]
-        stressed = [u'tú', 'te', 'tir', u'ár', u'fín', u'cán']
+        stressed = [u'tú', 'te', 'tir', u'ár', u'fín', u'drú', u'rá']
         self.assertSequenceEqual(stressed, words)
+
+    def test_syllabicate_atonic(self):  # Check atonic syllables
+        words = [u'tú', 'tecla', 'latir', u'árbol', u'afín', u'esdrújula',
+                 u'rápidamente']
+        words = [stress.atonic(word, lang) for word in words]
+        unstressed = [[], ['cla'], ['la'], ['bol'], ['a'], ['es', 'ju', 'la'],
+                      ['pi', 'da', 'men', 'te']]
+        self.assertSequenceEqual(unstressed, words)
 
 
 if __name__ == '__main__':

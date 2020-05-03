@@ -23,11 +23,20 @@ def get_tonic(syllables, lang):
     """Return tonic syllable from a list of syllables."""
     return syllables[lang.find_stress(syllables)]
 
+def get_atonic(syllables, lang):
+    """Return list of atonics from a list of syllables."""
+    tonic_pos = lang.find_stress(syllables)
+    atonics = syllables[:]
+    tonic_syl = atonics.pop(tonic_pos)
+    return atonics
+
 def tonic(word, lang):
     """Return tonic syllable from a word."""
     syllables = syllabicator.syllabicate(word, lang)
     return get_tonic(syllables, lang)
 
 def atonic(word, lang):
-    """Return atonic syllable/s from a word."""
-    return 0
+    """Return list of atonic syllable/s from a word."""
+    syllables = syllabicator.syllabicate(word, lang)
+    atonics = get_atonic(syllables, lang)
+    return atonics
