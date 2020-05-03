@@ -19,6 +19,7 @@
 
 import unittest
 import syllabicator
+import stress
 import es as lang
 
 
@@ -90,7 +91,7 @@ class _Testsyllabicator(unittest.TestCase):
         syllabification = [['ins', 'ta'], ['ash', 'lo']]
         self.assertSequenceEqual(syllabification, words)
 
-    def test_syllabicate_cuatro_consonants_between_two_voweles(self):
+    def test_syllabicate_four_consonants_between_two_voweles(self):
         words = ['instra']
         words = [syllabicator.syllabicate(word, lang) for word in words]
         syllabification = [['ins', 'tra']]
@@ -103,10 +104,10 @@ class _Testsyllabicator(unittest.TestCase):
         self.assertSequenceEqual(syllabification, words)
 
     def test_syllabicate_stress_mono(self):  # Check stress monosyllable
-        words = [[u'tú'], ['te'], ['la'], ['do']]
-        words = [syllabicator.stress(word, lang) for word in words]
-        stress = [[0], [0], [0], [0]]
-        self.assertSequenceEqual(stress, words)
+        words = [u'tú', 'tecla', 'latir', u'árbol', u'afín', u'cándido']
+        words = [stress.tonic(word, lang) for word in words]
+        stressed = [u'tú', 'te', 'tir', u'ár', u'fín', u'cán']
+        self.assertSequenceEqual(stressed, words)
 
 
 if __name__ == '__main__':

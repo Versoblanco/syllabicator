@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Syllabicate word according to rules of given language."""
+"""Find stressed syllable according to rules of given language."""
 
 # Copyright 2019 Patricia Martín (aka Farándula)
 
@@ -17,20 +17,18 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Syllabicator. If not, see <https://www.gnu.org/licenses/>.
 
+import syllabicator
+import es as lang
 
-def _get_syllable(word, lang):
-    lenght = lang.len_syllable(word)
-    syllable = word[:lenght]
-    return syllable
+def get_tonic(syllables, lang):
+    """Return tonic syllable from a list of syllables."""
+    return syllables[lang.find_stress(syllables)]
 
+def tonic(word, lang):    
+    """Return tonic syllable from a word."""
+    syllables = syllabicator.syllabicate(word, lang)
+    return get_tonic(syllables, lang)
 
-def syllabicate(word, lang):
-    """Return a list of syllables from word. Word data type must be unicode."""
-    syllabification = []
-    while len(word) > 0:
-        syllable = _get_syllable(word, lang)
-        syllabification.append(syllable)
-        word = word[len(syllable):]
-    return syllabification
-
-
+def atonic(word, lang):
+    """Return atonic syllable/s from a word."""
+    return 0

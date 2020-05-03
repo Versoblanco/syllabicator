@@ -22,7 +22,8 @@ def _alphabet():
     vowels = u'aeiouáéíóúüy'
     indivisibleConsonants = [u'ch', u'll', u'rr', u'pr', u'pl', u'br', u'vr', u'bl', u'vl', u'fr', u'fl', u'gr', u'gl', u'kr', u'cr', u'kl', u'cl', u'dr', u'tr', u'tx']
     closedVowels = u'iuü'
-    alphabet = {'consonants': consonants, 'vowels': vowels, 'indivisibleConsonants': indivisibleConsonants, 'closedVowels': closedVowels}
+    stressedVowels = u'á, é, í, ó, ú'
+    alphabet = {'consonants': consonants, 'vowels': vowels, 'indivisibleConsonants': indivisibleConsonants, 'closedVowels': closedVowels, 'stressedVowels': stressedVowels}
     return alphabet
 
 
@@ -40,6 +41,10 @@ def _is_consonant(letter):
 
 def _is_indivisible(letter):
     return letter in _alphabet()['indivisibleConsonants']
+
+
+def _is_stressed(letter):
+    return letter in _alphabet()['stressedVowels']
 
 
 # Patterns definitions. V = 'vowel' C = 'consonant'
@@ -107,8 +112,23 @@ def len_syllable(word):
                 return i + coda[pattern]
 
 def find_stress(syllables):
-    """Find stressed syllable/s and return list of indexes."""
-    stressed= []
+    """Find stressed syllable/s from a word's syllables list and return its position."""
+
+    # Monosyllable
     if len(syllables) == 1:
-        stressed.append(0)
-    return stressed
+        return 0
+
+    # Look for accent mark
+    for i, syllable in enumerate(syllables):
+        for letter in syllable:
+            if _is_stressed(letter):
+                return i
+
+    # Check last letter
+    last_syllable = syllables[len(syllables)-1]
+    last_letter = last_syllable[len(last_syllable)-1]
+    if  _is_vowel(last_letter) or last_letter == 'n' or last_letter == 's':
+        return len(syllables)-2         # Stress in penultimate syllable
+    else:
+        return len(syllables)-1         # Stress in last syllable
+
