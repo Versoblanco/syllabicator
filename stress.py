@@ -18,13 +18,12 @@
 # along with Syllabicator. If not, see <https://www.gnu.org/licenses/>.
 
 import syllabicator
-import es as lang
 
 def get_tonic(syllables, lang):
     """Return tonic syllable from a list of syllables."""
     return syllables[lang.find_stress(syllables)]
 
-def tonic(word, lang):    
+def tonic(word, lang):
     """Return tonic syllable from a word."""
     syllables = syllabicator.syllabicate(word, lang)
     return get_tonic(syllables, lang)

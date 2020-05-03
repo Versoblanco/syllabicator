@@ -20,15 +20,23 @@
 def _alphabet():
     consonants = u'bcdfghjklmnñpqrstvwxyz'
     vowels = u'aeiouáéíóúüy'
-    indivisibleConsonants = [u'ch', u'll', u'rr', u'pr', u'pl', u'br', u'vr', u'bl', u'vl', u'fr', u'fl', u'gr', u'gl', u'kr', u'cr', u'kl', u'cl', u'dr', u'tr', u'tx']
-    closedVowels = u'iuü'
-    stressedVowels = u'á, é, í, ó, ú'
-    alphabet = {'consonants': consonants, 'vowels': vowels, 'indivisibleConsonants': indivisibleConsonants, 'closedVowels': closedVowels, 'stressedVowels': stressedVowels}
+    indivisible_consonants = (u'ch', u'tx', u'll', u'rr',
+                              u'pr', u'pl', u'br', u'bl',
+                              u'vr', u'vl', u'fr', u'fl',
+                              u'gr', u'gl', u'kr', u'kl',
+                              u'cr', u'cl', u'dr', u'tr')
+    closed_vowels = u'iuü'
+    stressed_vowels = u'á, é, í, ó, ú'
+    alphabet = {'consonants': consonants,
+                'vowels': vowels,
+                'indivisible_consonants': indivisible_consonants,
+                'closed_vowels': closed_vowels,
+                'stressed_vowels': stressed_vowels}
     return alphabet
 
 
 def _closed_vowels():
-    return _alphabet()['closedVowels']
+    return _alphabet()['closed_vowels']
 
 
 def _is_vowel(letter):
@@ -40,11 +48,11 @@ def _is_consonant(letter):
 
 
 def _is_indivisible(letter):
-    return letter in _alphabet()['indivisibleConsonants']
+    return letter in _alphabet()['indivisible_consonants']
 
 
 def _is_stressed(letter):
-    return letter in _alphabet()['stressedVowels']
+    return letter in _alphabet()['stressed_vowels']
 
 
 # Patterns definitions. V = 'vowel' C = 'consonant'
@@ -53,46 +61,71 @@ def _is_stressed(letter):
 def _VV(word, i):
     if len(word[i:]) >= 2:
         return not _is_consonant(word[i]) and not _is_consonant(word[i+1])
-
+    return None
 
 def _Diphthong(word, i):
     if len(word) >= 2:
         return word[i] in _closed_vowels() or word[i+1] in _closed_vowels()
-
+    return None
 
 def _V_V(word, i):
     if _VV(word, i):
         return not _Diphthong(word, i) or word[i] == word[i + 1]
-
+    return None
 
 def _V_CV(word, i):
     if len(word[i:]) >= 3:
-        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_vowel(word[i+2])
-
+        return (_is_vowel(word[i]) and
+                _is_consonant(word[i+1]) and
+                _is_vowel(word[i+2]))
+    return None
 
 def _V_CCV(word, i):
     if len(word[i:]) >= 4:
-        return _is_vowel(word[i]) and _is_indivisible(word[i+1:i+3]) and _is_vowel(word[i+3])
+        return (_is_vowel(word[i]) and
+                _is_indivisible(word[i+1:i+3]) and
+                _is_vowel(word[i+3]))
+    return None
 
 
 def _VC_CV(word, i):
     if len(word[i:]) >= 4:
-        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_vowel(word[i+3]) and not _is_indivisible(word[i+1:i+3])
+        return (_is_vowel(word[i]) and
+                _is_consonant(word[i+1]) and
+                _is_consonant(word[i+2]) and
+                _is_vowel(word[i+3]) and not
+                _is_indivisible(word[i+1:i+3]))
+    return None
 
 
 def _VC_CCV(word, i):
     if len(word[i:]) >= 5:
-        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_indivisible(word[i+2:i+4]) and _is_vowel(word[i+4])
+        return (_is_vowel(word[i]) and
+                _is_consonant(word[i+1]) and
+                _is_indivisible(word[i+2:i+4]) and
+                _is_vowel(word[i+4]))
+    return None
 
 
 def _VCC_CV(word, i):
     if len(word[i:]) >= 5:
-        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_consonant(word[i+3]) and _is_vowel(word[i+4]) and not _is_indivisible(word[i+2:i+4])
+        return (_is_vowel(word[i]) and
+                _is_consonant(word[i+1]) and
+                _is_consonant(word[i+2]) and
+                _is_consonant(word[i+3]) and
+                _is_vowel(word[i+4]) and not
+                _is_indivisible(word[i+2:i+4]))
+    return None
 
 
 def _VCC_CCV(word, i):
     if len(word[i:]) >= 6:
-        return _is_vowel(word[i]) and _is_consonant(word[i+1]) and _is_consonant(word[i+2]) and _is_indivisible(word[i+3:i+5]) and _is_vowel(word[i+5])
+        return (_is_vowel(word[i]) and
+                _is_consonant(word[i+1]) and
+                _is_consonant(word[i+2]) and
+                _is_indivisible(word[i+3:i+5]) and
+                _is_vowel(word[i+5]))
+    return None
 
 
 def len_syllable(word):
@@ -110,6 +143,7 @@ def len_syllable(word):
         for pattern in coda:
             if pattern(word, i):
                 return i + coda[pattern]
+    return None
 
 def find_stress(syllables):
     """Find stressed syllable/s from a word's syllables list and return its position."""
@@ -127,8 +161,10 @@ def find_stress(syllables):
     # Check last letter
     last_syllable = syllables[len(syllables)-1]
     last_letter = last_syllable[len(last_syllable)-1]
-    if  _is_vowel(last_letter) or last_letter == 'n' or last_letter == 's':
-        return len(syllables)-2         # Stress in penultimate syllable
-    else:
-        return len(syllables)-1         # Stress in last syllable
 
+    # Stress in penultimate syllable
+    if  _is_vowel(last_letter) or last_letter == 'n' or last_letter == 's':
+        return len(syllables)-2
+
+    # Stress in last syllable
+    return len(syllables)-1

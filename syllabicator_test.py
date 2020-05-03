@@ -100,10 +100,13 @@ class _Testsyllabicator(unittest.TestCase):
     def test_syllabicate_prefix(self):  # Check wrong syllabification (no prefix functionality)
         words = [u'subacuático', u'parapsicólogo', 'postimpresionismo', 'subrepticio']
         words = [syllabicator.syllabicate(word, lang) for word in words]
-        syllabification = [['su', 'ba', u'cuá', 'ti', 'co'], ['pa', 'rap', 'si', u'có', 'lo', 'go'], ['pos', 'tim', 'pre', 'sio', 'nis', 'mo'], ['su', 'brep', 'ti', 'cio']]
+        syllabification = [['su', 'ba', u'cuá', 'ti', 'co'],
+                           ['pa', 'rap', 'si', u'có', 'lo', 'go'],
+                           ['pos', 'tim', 'pre', 'sio', 'nis', 'mo'],
+                           ['su', 'brep', 'ti', 'cio']]
         self.assertSequenceEqual(syllabification, words)
 
-    def test_syllabicate_stress_mono(self):  # Check stress monosyllable
+    def test_syllabicate_stress(self):  # Check tonic syllables
         words = [u'tú', 'tecla', 'latir', u'árbol', u'afín', u'cándido']
         words = [stress.tonic(word, lang) for word in words]
         stressed = [u'tú', 'te', 'tir', u'ár', u'fín', u'cán']
