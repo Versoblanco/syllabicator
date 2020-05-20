@@ -61,7 +61,7 @@ def _is_stressed(letter):
 def _VV(word, i):
     if len(word[i:]) >= 2:
         return (not _is_consonant(word[i]) and
-                not _is_consonant(word[i+1]))
+                not _is_consonant(word[i+1]))	# Only full vowels, excludes 'y'
     return None
 
 def _Diphthong(word, i):
@@ -134,6 +134,7 @@ def _VCC_CCV(word, i):
 def len_syllable(word):
     """Find matching pattern and return syllable lenght."""
     coda = {
+        # Number of letters of each pattern counting from syllable's first vowel
         _V_CCV: 1,
         _V_CV: 1,
         _V_V: 1,

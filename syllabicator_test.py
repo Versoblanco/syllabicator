@@ -20,7 +20,7 @@
 import unittest
 import syllabicator
 import stress
-import es as lang
+import lang.es as lang
 
 
 class _Testsyllabicator(unittest.TestCase):

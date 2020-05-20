@@ -1,6 +1,6 @@
 # Syllabicator [![Build Status](https://travis-ci.com/Versoblanco/syllabicator.svg?branch=master)](https://travis-ci.com/Versoblanco/syllabicator)
 
-Syllabicator takes a word and returns a list of syllables acording to the given language rules. It is written in Python and works with both 2 and 3 version.
+Syllabicator takes a word and returns a list of syllables acording to the given language rules. It also finds tonic und atonic syllables. It is written in Python and works with both 2 and 3 version.
 
 [Installation](#installation)
 | [Syntax](#syntax)
@@ -9,30 +9,46 @@ Syllabicator takes a word and returns a list of syllables acording to the given 
 
 ## Installation
 
-At the moment it is only a simple function. Hopefully, it will be shortly available in the Python Package Repository and with some kind of user interface. At the moment you can just clone/ copy / download the files and import them for your proyect.
+At the moment it is only a simple function. Hopefully, it will be shortly available in the Python Package Repository and with some kind of user interface. At the moment you can just clone/ copy / download the files and import them for your project.
 
 Please, check first [license compatibility](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses)
 
 ## Syntax
 
-<code>syllabicator.syllabicate(word, lang)</code>
+        syllabicator.syllabicate(word, lang)
+        stress.tonic(word, lang)
+        stress.tonic(word, lang)
 
-It takes two arguments:
+They take the same arguments:
 
 - <code>word</code> understood as a any iterable sequence of characters.
-- <code>lang</code> is the language expressed by its two letters standard (en, de, it, etc.). Currently it will work only with <code>es</code>
+- <code>lang</code> is the language expressed by its two letters standard (en, de, it, etc.). Currently it will work only with Spanish <code>es</code>
 
-        word = u"hodor"     # Input should be always Unicode type
-        print(syllabicator.syllabicate(word, es))
+        # Syllabicate
 
-        # Output [ho, dor]
+        >>> import syllabicator
+        >>> import lang.es as es
+        >>> word = u"hodor"     # Input should be unicode. Default in Python 3
+        >>> print(syllabicator.syllabicate(word,es))
+        [u'ho', u'dor']
+
+        # Tonics and atonics
+
+        >>> import syllabicator
+        >>> import lang.es as es
+        >>> import stress
+        >>> word = u"esdrújula"
+        >>> print(stress.tonic(word, es))
+        drú
+        >>> print(stress.atonic(word,es))
+        [u'es', u'ju', u'la']
 
 
 ## Supported languages
 
-As Spaniard with a degree in Spanish Philology I am actually focused on this language, although the code is structured in order to take other sets of rules as a parameter and should be easily adapted to language that share similar patterns.
+I am only focused on Spanish, although the code is structured in order to take other sets of rules as a parameter and should be easily adapted to language that share similar patterns. Contributors for other languages are wellcomed.
 
-More details about implementation for spanish in [LEAME](/LEAME.md) file.
+More details about implementation for Spanish in [LEAME](/LEAME.md) file.
 
 ## Contribute
 
